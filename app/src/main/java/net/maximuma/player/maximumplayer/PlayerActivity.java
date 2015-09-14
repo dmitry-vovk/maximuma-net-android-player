@@ -2,6 +2,7 @@ package net.maximuma.player.maximumplayer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -34,6 +35,10 @@ public class PlayerActivity extends AppCompatActivity {
         // register class containing methods to be exposed to JavaScript
         JSInterface = new JavaScriptInterface(this);
         myWebView.addJavascriptInterface(JSInterface, "JSInterface");
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
     }
 
     @Override
