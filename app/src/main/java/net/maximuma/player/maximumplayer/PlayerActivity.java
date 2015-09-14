@@ -1,7 +1,9 @@
 package net.maximuma.player.maximumplayer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,15 +37,17 @@ public class PlayerActivity extends AppCompatActivity {
         // register class containing methods to be exposed to JavaScript
         JSInterface = new JavaScriptInterface(this);
         myWebView.addJavascriptInterface(JSInterface, "JSInterface");
+        // hide the ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onPause() {
-        myWebView.destroy();
+        myWebView.evaluateJavascript("if (typeof window.pausePlay === 'function') window.pausePlay();", null);
         super.onPause();
     }
 
@@ -53,10 +57,11 @@ public class PlayerActivity extends AppCompatActivity {
         load();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onResume() {
         super.onResume();
-        load();
+        myWebView.evaluateJavascript("if (typeof window.resumePlay === 'function') window.resumePlay();", null);
     }
 
     @Override
