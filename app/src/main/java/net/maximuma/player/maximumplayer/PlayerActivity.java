@@ -44,10 +44,11 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onPause() {
-        myWebView.evaluateJavascript("if (typeof window.pausePlay === 'function') window.pausePlay();", null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            myWebView.evaluateJavascript("if (typeof window.pausePlay === 'function') window.pausePlay();", null);
+        }
         super.onPause();
     }
 
@@ -57,11 +58,12 @@ public class PlayerActivity extends AppCompatActivity {
         load();
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onResume() {
         super.onResume();
-        myWebView.evaluateJavascript("if (typeof window.resumePlay === 'function') window.resumePlay();", null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            myWebView.evaluateJavascript("if (typeof window.resumePlay === 'function') window.resumePlay();", null);
+        }
     }
 
     @Override
